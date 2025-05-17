@@ -1,0 +1,189 @@
+/* Global Theme Variables */
+:root {
+  --primary-gradient: linear-gradient(135deg, rgb(44, 62, 80), rgb(52, 152, 219));
+  --primary-color: rgb(44, 62, 80);
+  --secondary-color: rgb(52, 152, 219);
+  --text-on-primary: #ffffff;
+  --sidebar-width: 250px;
+  --sidebar-width-collapsed: 70px;
+  --header-height: 60px;
+  --header-height-mobile: 56px;
+  --border-radius: 8px;
+  --box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  --transition-speed: 0.3s;
+  --spacing-xs: 0.25rem;
+  --spacing-sm: 0.5rem;
+  --spacing-md: 1rem;
+  --spacing-lg: 1.5rem;
+  --spacing-xl: 2rem;
+}
+
+/* Header Styles */
+.bg-header, .header-gradient {
+  background: var(--primary-gradient) !important;
+  color: var(--text-on-primary);
+}
+
+/* Sidebar Styles */
+.bg-sidebar, .sidebar-gradient {
+  background: var(--primary-gradient) !important;
+  color: var(--text-on-primary);
+}
+
+/* Button Styles */
+.btn-primary, .btn-theme, .log-color, .view-btn, .add-user-button {
+  background: var(--primary-gradient) !important;
+  border: none !important;
+  color: var(--text-on-primary) !important;
+  transition: opacity var(--transition-speed) ease;
+}
+
+.btn-primary:hover, .btn-theme:hover, .log-color:hover, .view-btn:hover, .add-user-button:hover {
+  opacity: 0.9;
+}
+
+/* Card Styles */
+.card-header-theme {
+  background: var(--primary-gradient);
+  color: var(--text-on-primary);
+  border-radius: var(--border-radius) var(--border-radius) 0 0;
+}
+
+/* Active Navigation Links */
+.nav-link.active, .active-nav-link {
+  background: var(--primary-gradient) !important;
+  color: var(--text-on-primary) !important;
+}
+
+/* Login/Signup Forms */
+.auth-wrapper {
+  background: var(--primary-gradient);
+}
+
+.signup-btn {
+  background: var(--primary-gradient) !important;
+  color: var(--text-on-primary) !important;
+  border: none;
+  padding: 10px 15px;
+  border-radius: var(--border-radius);
+  cursor: pointer;
+  width: 100%;
+  font-weight: 500;
+  transition: opacity var(--transition-speed) ease;
+}
+
+.signup-btn:hover {
+  opacity: 0.9;
+}
+
+/* Employee Dashboard Styles */
+.employee-header, .employee-sidebar {
+  background: var(--primary-gradient) !important;
+  color: var(--text-on-primary);
+}
+
+.text-theme {
+  color: var(--secondary-color) !important;
+}
+
+/* HR Dashboard Styles */
+.hr-header, .hr-sidebar {
+  background: var(--primary-gradient) !important;
+  color: var(--text-on-primary);
+}
+
+/* Override Bootstrap Classes */
+.bg-primary {
+  background: var(--primary-gradient) !important;
+}
+
+.text-primary {
+  color: var(--secondary-color) !important;
+}
+
+/* Custom Classes for Specific Components */
+.gradient-bg {
+  background: var(--primary-gradient);
+}
+
+.gradient-text {
+  background: var(--primary-gradient);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+/* Responsive Font Sizes */
+.fs-sm {
+  font-size: 0.875rem;
+}
+
+.fs-md {
+  font-size: 1rem;
+}
+
+.fs-lg {
+  font-size: 1.25rem;
+}
+
+.fs-xl {
+  font-size: 1.5rem;
+}
+
+/* Responsive Spacing Utilities */
+.p-responsive {
+  padding: var(--spacing-sm);
+}
+
+.m-responsive {
+  margin: var(--spacing-sm);
+}
+
+/* Responsive Button Sizes */
+.btn-sm-md-lg {
+  padding: 0.25rem 0.5rem;
+  font-size: 0.875rem;
+}
+
+/* Responsive Table Utilities */
+.table-responsive-sm {
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+}
+
+/* Responsive Card Utilities */
+.card-responsive {
+  border-radius: var(--border-radius);
+  box-shadow: var(--box-shadow);
+}
+
+/* Responsive Media Queries */
+@media (min-width: 576px) {
+  .p-responsive {
+    padding: var(--spacing-md);
+  }
+
+  .m-responsive {
+    margin: var(--spacing-md);
+  }
+
+  .btn-sm-md-lg {
+    padding: 0.375rem 0.75rem;
+    font-size: 1rem;
+  }
+}
+
+@media (min-width: 992px) {
+  .p-responsive {
+    padding: var(--spacing-lg);
+  }
+
+  .m-responsive {
+    margin: var(--spacing-lg);
+  }
+
+  .btn-sm-md-lg {
+    padding: 0.5rem 1rem;
+    font-size: 1.1rem;
+  }
+}
