@@ -1,8 +1,8 @@
 import axios from 'axios';
 
 // Try to use the main API, but fall back to the test server if needed
-const API_URL = 'http://localhost:5000/api';
-const TEST_API_URL = 'http://localhost:5000/api';
+const API_URL = 'https://hrmatrix-backend.onrender.com/api';
+const TEST_API_URL = 'https://hrmatrix-backend.onrender.com/api';
 
 // Flag to track if we're using the test server
 let usingTestServer = false;

@@ -4,7 +4,7 @@ import { supportMessages } from '../../Utils/InitialDataValues/ProjectsData';
 // Import mock auth service instead of real API
 import { mockAuthService as authService } from '../../services/mockAuthService';
 
-const API_URL = 'http://localhost:5000/api';
+const API_URL = 'https://hrmatrix-backend.onrender.com/api';
 
 // Check if user is already logged in from localStorage
 const storedUser = localStorage.getItem('user') ? JSON.parse(localStorage.getItem('user')) : null;

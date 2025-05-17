@@ -92,7 +92,7 @@ const Profile = () => {
               marginRight: '20px'
             }}>
               <img
-                src={user?.profilePhoto ? `http://localhost:5000/${user.profilePhoto}` : 'https://via.placeholder.com/150'}
+                src={user?.profilePhoto ? `https://hrmatrix-backend.onrender.com/${user.profilePhoto}` : 'https://via.placeholder.com/150'}
                 alt="Profile"
                 height="110px"
                 width="110px"

@@ -193,7 +193,7 @@ const TeamMembers = () => {
                 <Card.Body className="d-flex flex-column">
                   <div className="d-flex align-items-center mb-3">
                     <img
-                      src={member.profilePhoto && member.profilePhoto !== 'default-profile.jpg' ? `http://localhost:5000/${member.profilePhoto}` : '/default-profile.png'}
+                      src={member.profilePhoto && member.profilePhoto !== 'default-profile.jpg' ? `https://hrmatrix-backend.onrender.com/${member.profilePhoto}` : '/default-profile.png'}
                       alt={member.name}
                       className="rounded-circle me-3"
                       style={{ width: '60px', height: '60px', objectFit: 'cover', border: `2px solid ${themeColors.secondary}` }}
@@ -229,7 +229,7 @@ const TeamMembers = () => {
           <Modal.Body>
             <div className="text-center mb-4">
               <img
-                src={selectedMember.profilePhoto && selectedMember.profilePhoto !== 'default-profile.jpg' ? `http://localhost:5000/${selectedMember.profilePhoto}` : '/default-profile.png'}
+                src={selectedMember.profilePhoto && selectedMember.profilePhoto !== 'default-profile.jpg' ? `https://hrmatrix-backend.onrender.com/${selectedMember.profilePhoto}` : '/default-profile.png'}
                 alt={selectedMember.name}
                 className="rounded-circle mb-3"
                 style={{ width: '100px', height: '100px', objectFit: 'cover', border: `3px solid ${themeColors.secondary}` }}
