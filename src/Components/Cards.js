@@ -121,7 +121,7 @@ const Cards = () => {
     name: emp.name,
     department: emp.department,
     date: emp.dob ? new Date(emp.dob).toLocaleDateString('en-US', { month: 'short', day: 'numeric' }) : '',
-    image: emp.profilePhoto ? `https://hrmatrix-backend.onrender.com/${emp.profilePhoto}` : male
+    image: emp.profilePhoto ? `${process.env.REACT_APP_BACKEND_URL}/${emp.profilePhoto}` : male
   }));
   
   // Function to sort the birthday data by upcoming birthday

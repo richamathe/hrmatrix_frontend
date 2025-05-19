@@ -5,7 +5,6 @@ import Sidebar from './Sidebar';
 import Dashboard from './Dashboard';
 import Analytics from './Analytics';
 import UserManagement from './UserManagement';
-import RoleManagement from './RoleManagement';
 import DepartmentManagement from './DepartmentManagement';
 import SystemSettings from './SystemSettings';
 import Support from './Support';
@@ -197,7 +196,6 @@ const AdminDashboard = () => {
               <Route path="dashboard" element={<Dashboard />} />
               <Route path="analytics" element={<Analytics />} />
               <Route path="users" element={<UserManagement />} />
-              <Route path="roles" element={<RoleManagement />} />
               <Route path="departments" element={<DepartmentManagement />} />
               <Route path="settings" element={<SystemSettings />} />
               <Route path="support" element={<Support />} />

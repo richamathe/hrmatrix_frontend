@@ -12,7 +12,6 @@ import {
   X,
   ChevronRight,
   BarChart2,
-  UserPlus,
   FileText,
   HelpCircle,
   Bell
@@ -229,63 +228,20 @@ const Sidebar = () => {
                   )}
                 </NavLink>
               </li>
-              <li className="nav-item mb-2">
-                <NavLink
-                  to="/admin/roles"
-                  className={navLinkClass}
-                  style={{
-                    padding: collapsed ? '10px 0' : '10px',
-                    margin: collapsed ? '0 auto' : '0',
-                    ...(location.pathname === '/admin/roles' ? activeNavLinkStyle : {})
-                  }}
-                >
-                  <div style={iconContainerStyle}>
-                    <UserPlus size={18} color="#ffffff" />
-                  </div>
-                  {!collapsed && (
-                    <>
-                      <span>Role Management</span>
-                      <ChevronRight
-                        size={16}
-                        className="ms-auto"
-                        style={{ opacity: location.pathname === '/admin/roles' ? 1 : 0 }}
-                      />
-                    </>
-                  )}
-                </NavLink>
-              </li>
-              <li className="nav-item mb-2">
-                <NavLink
-                  to="/admin/departments"
-                  className={navLinkClass}
-                  style={{
-                    padding: collapsed ? '10px 0' : '10px',
-                    margin: collapsed ? '0 auto' : '0',
-                    ...(location.pathname === '/admin/departments' ? activeNavLinkStyle : {})
-                  }}
-                >
-                  <div style={iconContainerStyle}>
-                    <FileText size={18} color="#ffffff" />
-                  </div>
-                  {!collapsed && (
-                    <>
-                      <span>Department Management</span>
-                      <ChevronRight
-                        size={16}
-                        className="ms-auto"
-                        style={{ opacity: location.pathname === '/admin/departments' ? 1 : 0 }}
-                      />
-                    </>
-                  )}
-                </NavLink>
-              </li>
+           
             </ul>
           </div>
 
           <div className="mb-4">
             <p className={`text-uppercase text-white-50 ${collapsed ? 'd-none' : ''}`} style={{ fontSize: '0.75rem', marginBottom: '8px', letterSpacing: '1px' }}>
-              System
+              Reports
             </p>
+            <ul className="nav flex-column">
+              
+            </ul>
+          </div>
+
+          <div className="mt-auto">
             <ul className="nav flex-column">
               <li className="nav-item mb-2">
                 <NavLink
@@ -302,7 +258,7 @@ const Sidebar = () => {
                   </div>
                   {!collapsed && (
                     <>
-                      <span>System Settings</span>
+                      <span>Settings</span>
                       <ChevronRight
                         size={16}
                         className="ms-auto"
@@ -312,42 +268,13 @@ const Sidebar = () => {
                   )}
                 </NavLink>
               </li>
-              <li className="nav-item mb-2">
-                <NavLink
-                  to="/admin/support"
-                  className={navLinkClass}
-                  style={{
-                    padding: collapsed ? '10px 0' : '10px',
-                    margin: collapsed ? '0 auto' : '0',
-                    ...(location.pathname === '/admin/support' ? activeNavLinkStyle : {})
-                  }}
-                >
-                  <div style={iconContainerStyle}>
-                    <HelpCircle size={18} color="#ffffff" />
-                  </div>
-                  {!collapsed && (
-                    <>
-                      <span>Help & Support</span>
-                      <ChevronRight
-                        size={16}
-                        className="ms-auto"
-                        style={{ opacity: location.pathname === '/admin/support' ? 1 : 0 }}
-                      />
-                    </>
-                  )}
-                </NavLink>
-              </li>
               <li className="nav-item">
                 <button
                   onClick={handleLogout}
-                  className={`nav-link d-flex align-items-center p-2 rounded ${collapsed ? 'justify-content-center' : ''}`}
+                  className="nav-link d-flex align-items-center p-2 rounded w-100 border-0 bg-transparent text-white"
                   style={{
                     padding: collapsed ? '10px 0' : '10px',
-                    margin: collapsed ? '0 auto' : '0',
-                    background: 'transparent',
-                    border: 'none',
-                    width: '100%',
-                    textAlign: 'left'
+                    margin: collapsed ? '0 auto' : '0'
                   }}
                 >
                   <div style={iconContainerStyle}>

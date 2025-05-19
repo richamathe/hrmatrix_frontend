@@ -1,34 +1,191 @@
-import React, { useState } from 'react';
-import { Card, Table, Button, Badge, Form, InputGroup, Dropdown, Modal } from 'react-bootstrap';
+import React, { useState, useEffect } from 'react';
+import { Card, Table, Button, Badge, Form, InputGroup, Dropdown, Modal, Spinner } from 'react-bootstrap';
 import { Search, Filter, UserPlus, Edit, Trash2, MoreVertical, Eye } from 'lucide-react';
+import { toast } from 'react-toastify';
 import themeColors from '../../theme/colors';
+import { userService } from '../../services/userService';
 
 const UserManagement = () => {
   const [showModal, setShowModal] = useState(false);
   const [modalType, setModalType] = useState('');
   const [selectedUser, setSelectedUser] = useState(null);
+  const [users, setUsers] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [searchTerm, setSearchTerm] = useState('');
+  const [roleFilter, setRoleFilter] = useState('');
+  const [departmentFilter, setDepartmentFilter] = useState('');
+  const [statusFilter, setStatusFilter] = useState('');
+  const [formData, setFormData] = useState({
+    name: '',
+    email: '',
+    role: '',
+    department: '',
+    password: '',
+    designation: '',
+    mobile: '',
+    gender: '',
+    dob: '',
+    joiningDate: '',
+    address: '',
+    position: 'Staff',
+    salary: 30000
+  });
 
-  // Mock user data
-  const users = [
-    { id: 1, name: 'John Doe', email: 'john.doe@example.com', role: 'Admin', department: 'IT', status: 'Active', lastLogin: '2023-06-10 09:30 AM' },
-    { id: 2, name: 'Jane Smith', email: 'jane.smith@example.com', role: 'HR', department: 'Human Resources', status: 'Active', lastLogin: '2023-06-10 10:15 AM' },
-    { id: 3, name: 'Robert Johnson', email: 'robert.johnson@example.com', role: 'Employee', department: 'Finance', status: 'Inactive', lastLogin: '2023-06-05 02:45 PM' },
-    { id: 4, name: 'Emily Davis', email: 'emily.davis@example.com', role: 'Manager', department: 'Marketing', status: 'Active', lastLogin: '2023-06-09 11:20 AM' },
-    { id: 5, name: 'Michael Wilson', email: 'michael.wilson@example.com', role: 'Employee', department: 'Engineering', status: 'Active', lastLogin: '2023-06-10 08:45 AM' },
-    { id: 6, name: 'Sarah Brown', email: 'sarah.brown@example.com', role: 'HR', department: 'Human Resources', status: 'Active', lastLogin: '2023-06-08 03:30 PM' },
-    { id: 7, name: 'David Miller', email: 'david.miller@example.com', role: 'Employee', department: 'Operations', status: 'Inactive', lastLogin: '2023-05-30 01:15 PM' },
-    { id: 8, name: 'Jennifer Taylor', email: 'jennifer.taylor@example.com', role: 'Manager', department: 'Sales', status: 'Active', lastLogin: '2023-06-09 09:50 AM' }
-  ];
+  // Load users on component mount
+  useEffect(() => {
+    fetchUsers();
+  }, []);
+
+  const fetchUsers = async () => {
+    try {
+      setLoading(true);
+      const response = await userService.getAllUsers();
+      console.log('API Response:', response);
+      // Transform the data to match our UI requirements
+      const transformedUsers = (response.employees || []).map(employee => ({
+        _id: employee._id,
+        name: employee.name,
+        email: employee.email,
+        role: employee.role || 'employee', // Default role if not provided
+        department: employee.department,
+        status: employee.status || 'Active', // Default status if not provided
+        lastLogin: employee.lastLogin || 'Never',
+        dob: employee.dob,
+        profilePhoto: employee.profilePhoto,
+        designation: employee.designation,
+        mobile: employee.mobile,
+        gender: employee.gender,
+        joiningDate: employee.joiningDate,
+        address: employee.address
+      }));
+      setUsers(transformedUsers);
+      console.log('Transformed Users:', transformedUsers);
+    } catch (error) {
+      console.error('Error fetching users:', error);
+      toast.error('Failed to load users');
+    } finally {
+      setLoading(false);
+    }
+  };
 
   const handleOpenModal = (type, user = null) => {
     setModalType(type);
     setSelectedUser(user);
+    if (type === 'edit' && user) {
+      setFormData({
+        name: user.name,
+        email: user.email,
+        role: user.role,
+        department: user.department,
+        password: '', // Don't set password for edit
+        designation: user.designation || '',
+        mobile: user.mobile || '',
+        gender: user.gender || '',
+        dob: user.dob || '',
+        joiningDate: user.joiningDate || '',
+        address: user.address || '',
+        position: user.position || 'Staff',
+        salary: user.salary || 30000
+      });
+    } else {
+      setFormData({
+        name: '',
+        email: '',
+        role: '',
+        department: '',
+        password: '',
+        designation: '',
+        mobile: '',
+        gender: '',
+        dob: '',
+        joiningDate: '',
+        address: '',
+        position: 'Staff',
+        salary: 30000
+      });
+    }
     setShowModal(true);
   };
 
   const handleCloseModal = () => {
     setShowModal(false);
     setSelectedUser(null);
+    setFormData({
+      name: '',
+      email: '',
+      role: '',
+      department: '',
+      password: '',
+      designation: '',
+      mobile: '',
+      gender: '',
+      dob: '',
+      joiningDate: '',
+      address: '',
+      position: 'Staff',
+      salary: 30000
+    });
+  };
+
+  const handleFormChange = (e) => {
+    const { name, value } = e.target;
+    setFormData(prev => ({
+      ...prev,
+      [name]: value
+    }));
+  };
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    try {
+      if (modalType === 'add') {
+        await userService.createUser(formData);
+        toast.success('User created successfully');
+      } else if (modalType === 'edit') {
+        await userService.updateUser(selectedUser._id, formData);
+        toast.success('User updated successfully');
+      }
+      handleCloseModal();
+      fetchUsers();
+    } catch (error) {
+      console.error('Operation error:', error);
+      if (error.message && error.message.includes('not authorized')) {
+        toast.error('You do not have permission to perform this action');
+      } else {
+        toast.error(error.message || 'Operation failed');
+      }
+    }
+  };
+
+  const handleDelete = async () => {
+    try {
+      await userService.deleteUser(selectedUser._id);
+      toast.success('User deleted successfully');
+      handleCloseModal();
+      fetchUsers();
+    } catch (error) {
+      console.error('Delete error:', error);
+      if (error.message && error.message.includes('not authorized')) {
+        toast.error('You do not have permission to delete users');
+      } else {
+        toast.error(error.message || 'Failed to delete user');
+      }
+    }
+  };
+
+  const handleStatusChange = async (userId, newStatus) => {
+    try {
+      await userService.updateUserStatus(userId, newStatus);
+      toast.success('User status updated successfully');
+      fetchUsers();
+    } catch (error) {
+      console.error('Status update error:', error);
+      if (error.message && error.message.includes('not authorized')) {
+        toast.error('You do not have permission to update user status');
+      } else {
+        toast.error(error.message || 'Failed to update status');
+      }
+    }
   };
 
   const getStatusBadge = (status) => {
@@ -52,18 +209,36 @@ const UserManagement = () => {
     }
   };
 
+  // Filter users based on search and filters
+  const filteredUsers = users.filter(user => {
+    const matchesSearch = user.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
+                         user.email.toLowerCase().includes(searchTerm.toLowerCase());
+    const matchesRole = !roleFilter || user.role === roleFilter;
+    const matchesDepartment = !departmentFilter || user.department === departmentFilter;
+    const matchesStatus = !statusFilter || user.status === statusFilter;
+    return matchesSearch && matchesRole && matchesDepartment && matchesStatus;
+  });
+
+  if (loading) {
+    return (
+      <div className="d-flex justify-content-center align-items-center" style={{ height: '400px' }}>
+        <Spinner animation="border" style={{ color: themeColors.primary }} />
+      </div>
+    );
+  }
+
   return (
-    <div>
+    <div className="px-3 px-md-4 py-3 py-md-4">
       {/* Page Title */}
       <div className="d-flex flex-column flex-md-row justify-content-between align-items-start align-items-md-center mb-4">
         <div className="mb-3 mb-md-0">
-          <h2 className="fw-bold" style={{
+          <h2 className="fw-bold fs-4 fs-md-3" style={{
             background: themeColors.gradient,
             WebkitBackgroundClip: 'text',
             WebkitTextFillColor: 'transparent',
             backgroundClip: 'text'
           }}>User Management</h2>
-          <p className="text-muted mb-0">Manage system users and their access</p>
+          <p className="text-muted mb-0 small">Manage system users and their access</p>
         </div>
         <div>
           <Button
@@ -72,7 +247,7 @@ const UserManagement = () => {
               border: 'none'
             }}
             onClick={() => handleOpenModal('add')}
-            className="btn-sm btn-md-lg"
+            className="btn-sm btn-md-lg w-100 w-md-auto"
           >
             <UserPlus size={16} className="me-1 me-sm-2" />
             <span className="d-none d-sm-inline">Add New User</span>
@@ -92,6 +267,8 @@ const UserManagement = () => {
                 </InputGroup.Text>
                 <Form.Control
                   placeholder="Search users..."
+                  value={searchTerm}
+                  onChange={(e) => setSearchTerm(e.target.value)}
                   style={{ borderLeft: 'none' }}
                 />
               </InputGroup>
@@ -99,28 +276,37 @@ const UserManagement = () => {
             <div className="col-12 col-md-6">
               <div className="d-flex flex-wrap gap-2">
                 <div className="flex-grow-1">
-                  <Form.Select size="sm">
+                  <Form.Select 
+                    size="sm"
+                    value={roleFilter}
+                    onChange={(e) => setRoleFilter(e.target.value)}
+                  >
                     <option value="">All Roles</option>
-                    <option value="Admin">Admin</option>
-                    <option value="HR">HR</option>
-                    <option value="Manager">Manager</option>
-                    <option value="Employee">Employee</option>
+                    <option value="employee">Employee</option>
+                    <option value="hr">HR</option>
                   </Form.Select>
                 </div>
                 <div className="flex-grow-1">
-                  <Form.Select size="sm">
+                  <Form.Select 
+                    size="sm"
+                    value={departmentFilter}
+                    onChange={(e) => setDepartmentFilter(e.target.value)}
+                  >
                     <option value="">All Departments</option>
+                    <option value="HR">HR</option>
                     <option value="IT">IT</option>
-                    <option value="Human Resources">Human Resources</option>
                     <option value="Finance">Finance</option>
                     <option value="Marketing">Marketing</option>
-                    <option value="Engineering">Engineering</option>
                     <option value="Operations">Operations</option>
                     <option value="Sales">Sales</option>
                   </Form.Select>
                 </div>
                 <div className="flex-grow-1">
-                  <Form.Select size="sm">
+                  <Form.Select 
+                    size="sm"
+                    value={statusFilter}
+                    onChange={(e) => setStatusFilter(e.target.value)}
+                  >
                     <option value="">All Status</option>
                     <option value="Active">Active</option>
                     <option value="Inactive">Inactive</option>
@@ -149,8 +335,8 @@ const UserManagement = () => {
                 </tr>
               </thead>
               <tbody>
-                {users.map(user => (
-                  <tr key={user.id}>
+                {filteredUsers.map(user => (
+                  <tr key={user._id}>
                     <td className="py-3 ps-4">
                       <div className="d-flex align-items-center">
                         <div className="rounded-circle d-flex align-items-center justify-content-center me-2 me-sm-3" style={{
@@ -171,7 +357,21 @@ const UserManagement = () => {
                     </td>
                     <td>{getRoleBadge(user.role)}</td>
                     <td className="d-none d-lg-table-cell">{user.department}</td>
-                    <td>{getStatusBadge(user.status)}</td>
+                    <td>
+                      <Dropdown>
+                        <Dropdown.Toggle variant="light" size="sm" className="border-0 bg-transparent p-0">
+                          {getStatusBadge(user.status)}
+                        </Dropdown.Toggle>
+                        <Dropdown.Menu>
+                          <Dropdown.Item onClick={() => handleStatusChange(user._id, 'Active')}>
+                            Set Active
+                          </Dropdown.Item>
+                          <Dropdown.Item onClick={() => handleStatusChange(user._id, 'Inactive')}>
+                            Set Inactive
+                          </Dropdown.Item>
+                        </Dropdown.Menu>
+                      </Dropdown>
+                    </td>
                     <td className="d-none d-xl-table-cell">{user.lastLogin}</td>
                     <td className="pe-4 text-end">
                       <div className="d-flex justify-content-end">
@@ -185,7 +385,7 @@ const UserManagement = () => {
                           <Eye size={14} />
                         </Button>
                         <Dropdown align="end" className="d-none d-md-block">
-                          <Dropdown.Toggle variant="light" size="sm" className="border-0 bg-transparent" id={`dropdown-${user.id}`}>
+                          <Dropdown.Toggle variant="light" size="sm" className="border-0 bg-transparent" id={`dropdown-${user._id}`}>
                             <MoreVertical size={16} />
                           </Dropdown.Toggle>
                           <Dropdown.Menu>
@@ -212,30 +412,14 @@ const UserManagement = () => {
         <Card.Footer className="bg-white py-2 py-sm-3">
           <div className="d-flex flex-column flex-sm-row justify-content-between align-items-center">
             <div className="mb-2 mb-sm-0">
-              <small className="text-muted">Showing 1 to 8 of 8 entries</small>
-            </div>
-            <div className="d-flex">
-              <Button variant="outline-secondary" size="sm" disabled className="py-1 px-2 px-sm-3">
-                <span className="d-none d-sm-inline">Previous</span>
-                <span className="d-inline d-sm-none">&laquo;</span>
-              </Button>
-              <Button
-                variant="primary"
-                size="sm"
-                className="ms-2 py-1 px-2 px-sm-3"
-                disabled
-                style={{ background: themeColors.gradient, border: 'none' }}
-              >
-                <span className="d-none d-sm-inline">Next</span>
-                <span className="d-inline d-sm-none">&raquo;</span>
-              </Button>
+              <small className="text-muted">Showing {filteredUsers.length} of {users.length} entries</small>
             </div>
           </div>
         </Card.Footer>
       </Card>
 
       {/* Modal for Add/Edit/View/Delete User */}
-      <Modal show={showModal} onHide={handleCloseModal} centered size="sm">
+      <Modal show={showModal} onHide={handleCloseModal} centered size="lg" className="modal-dialog-scrollable">
         <Modal.Header closeButton className="py-2 py-sm-3">
           <Modal.Title className="fs-5">
             {modalType === 'add' && 'Add New User'}
@@ -247,29 +431,237 @@ const UserManagement = () => {
         <Modal.Body className="p-3 p-sm-4">
           {modalType === 'delete' ? (
             <p className="mb-0">Are you sure you want to delete the user "{selectedUser?.name}"? This action cannot be undone.</p>
+          ) : modalType === 'view' ? (
+            <div className="row g-3">
+              <div className="col-md-6">
+                <p className="mb-1 text-muted">Name</p>
+                <p className="mb-3">{selectedUser?.name}</p>
+              </div>
+              <div className="col-md-6">
+                <p className="mb-1 text-muted">Email</p>
+                <p className="mb-3">{selectedUser?.email}</p>
+              </div>
+              <div className="col-md-6">
+                <p className="mb-1 text-muted">Role</p>
+                <p className="mb-3">{selectedUser?.role}</p>
+              </div>
+              <div className="col-md-6">
+                <p className="mb-1 text-muted">Department</p>
+                <p className="mb-3">{selectedUser?.department}</p>
+              </div>
+              <div className="col-md-6">
+                <p className="mb-1 text-muted">Status</p>
+                <p className="mb-3">{selectedUser?.status}</p>
+              </div>
+              <div className="col-md-6">
+                <p className="mb-1 text-muted">Last Login</p>
+                <p className="mb-3">{selectedUser?.lastLogin}</p>
+              </div>
+            </div>
           ) : (
-            <p className="text-center text-muted mb-0">
-              This is a placeholder for the {modalType} user form. In a real implementation, this would include fields for user details.
-            </p>
+            <Form onSubmit={handleSubmit}>
+              <div className="row g-3">
+                <div className="col-md-6">
+                  <Form.Group>
+                    <Form.Label>Name</Form.Label>
+                    <Form.Control
+                      type="text"
+                      name="name"
+                      value={formData.name}
+                      onChange={handleFormChange}
+                      required
+                    />
+                  </Form.Group>
+                </div>
+                <div className="col-md-6">
+                  <Form.Group>
+                    <Form.Label>Email</Form.Label>
+                    <Form.Control
+                      type="email"
+                      name="email"
+                      value={formData.email}
+                      onChange={handleFormChange}
+                      required
+                    />
+                  </Form.Group>
+                </div>
+                <div className="col-md-6">
+                  <Form.Group>
+                    <Form.Label>Role</Form.Label>
+                    <Form.Select
+                      name="role"
+                      value={formData.role}
+                      onChange={handleFormChange}
+                      required
+                    >
+                      <option value="">Select Role</option>
+                      <option value="employee">Employee</option>
+                      <option value="hr">HR</option>
+                    </Form.Select>
+                  </Form.Group>
+                </div>
+                <div className="col-md-6">
+                  <Form.Group>
+                    <Form.Label>Department</Form.Label>
+                    <Form.Select
+                      name="department"
+                      value={formData.department}
+                      onChange={handleFormChange}
+                      required
+                    >
+                      <option value="">Select Department</option>
+                      <option value="HR">HR</option>
+                      <option value="IT">IT</option>
+                      <option value="Finance">Finance</option>
+                      <option value="Marketing">Marketing</option>
+                      <option value="Operations">Operations</option>
+                      <option value="Sales">Sales</option>
+                    </Form.Select>
+                  </Form.Group>
+                </div>
+                <div className="col-md-6">
+                  <Form.Group>
+                    <Form.Label>Designation</Form.Label>
+                    <Form.Control
+                      type="text"
+                      name="designation"
+                      value={formData.designation}
+                      onChange={handleFormChange}
+                      required
+                    />
+                  </Form.Group>
+                </div>
+                <div className="col-md-6">
+                  <Form.Group>
+                    <Form.Label>Mobile</Form.Label>
+                    <Form.Control
+                      type="tel"
+                      name="mobile"
+                      value={formData.mobile}
+                      onChange={handleFormChange}
+                      required
+                    />
+                  </Form.Group>
+                </div>
+                <div className="col-md-6">
+                  <Form.Group>
+                    <Form.Label>Gender</Form.Label>
+                    <Form.Select
+                      name="gender"
+                      value={formData.gender}
+                      onChange={handleFormChange}
+                      required
+                    >
+                      <option value="">Select Gender</option>
+                      <option value="male">Male</option>
+                      <option value="female">Female</option>
+                      <option value="other">Other</option>
+                    </Form.Select>
+                  </Form.Group>
+                </div>
+                <div className="col-md-6">
+                  <Form.Group>
+                    <Form.Label>Date of Birth</Form.Label>
+                    <Form.Control
+                      type="date"
+                      name="dob"
+                      value={formData.dob}
+                      onChange={handleFormChange}
+                      required
+                    />
+                  </Form.Group>
+                </div>
+                <div className="col-md-6">
+                  <Form.Group>
+                    <Form.Label>Joining Date</Form.Label>
+                    <Form.Control
+                      type="date"
+                      name="joiningDate"
+                      value={formData.joiningDate}
+                      onChange={handleFormChange}
+                      required
+                    />
+                  </Form.Group>
+                </div>
+                <div className="col-md-6">
+                  <Form.Group>
+                    <Form.Label>Position</Form.Label>
+                    <Form.Control
+                      type="text"
+                      name="position"
+                      value={formData.position}
+                      onChange={handleFormChange}
+                      defaultValue="Staff"
+                    />
+                  </Form.Group>
+                </div>
+                <div className="col-md-6">
+                  <Form.Group>
+                    <Form.Label>Salary</Form.Label>
+                    <Form.Control
+                      type="number"
+                      name="salary"
+                      value={formData.salary}
+                      onChange={handleFormChange}
+                      defaultValue={30000}
+                      min={0}
+                    />
+                  </Form.Group>
+                </div>
+                <div className="col-12">
+                  <Form.Group>
+                    <Form.Label>Address</Form.Label>
+                    <Form.Control
+                      as="textarea"
+                      rows={3}
+                      name="address"
+                      value={formData.address}
+                      onChange={handleFormChange}
+                      required
+                    />
+                  </Form.Group>
+                </div>
+                {modalType === 'add' && (
+                  <div className="col-md-6">
+                    <Form.Group>
+                      <Form.Label>Password</Form.Label>
+                      <Form.Control
+                        type="password"
+                        name="password"
+                        value={formData.password}
+                        onChange={handleFormChange}
+                        required
+                        minLength={6}
+                      />
+                    </Form.Group>
+                  </div>
+                )}
+              </div>
+            </Form>
           )}
         </Modal.Body>
-        <Modal.Footer className="py-2 py-sm-3 border-top-0">
-          <Button variant="secondary" size="sm" onClick={handleCloseModal} className="px-3">
-            {modalType === 'view' ? 'Close' : 'Cancel'}
-          </Button>
-          {modalType !== 'view' && (
-            <Button
-              size="sm"
-              className="px-3"
-              style={{
-                background: modalType === 'delete' ? '#e74c3c' : themeColors.gradient,
-                border: 'none'
-              }}
-            >
-              {modalType === 'add' && 'Add User'}
-              {modalType === 'edit' && 'Save Changes'}
-              {modalType === 'delete' && 'Delete User'}
-            </Button>
+        <Modal.Footer className="py-2 py-sm-3">
+          {modalType === 'delete' ? (
+            <>
+              <Button variant="light" onClick={handleCloseModal}>Cancel</Button>
+              <Button variant="danger" onClick={handleDelete}>Delete</Button>
+            </>
+          ) : modalType === 'view' ? (
+            <Button variant="light" onClick={handleCloseModal}>Close</Button>
+          ) : (
+            <>
+              <Button variant="light" onClick={handleCloseModal}>Cancel</Button>
+              <Button
+                type="submit"
+                onClick={handleSubmit}
+                style={{
+                  background: themeColors.gradient,
+                  border: 'none'
+                }}
+              >
+                {modalType === 'add' ? 'Add User' : 'Save Changes'}
+              </Button>
+            </>
           )}
         </Modal.Footer>
       </Modal>

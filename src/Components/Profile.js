@@ -350,7 +350,7 @@ const ManageAccount = () => {
       >
         Profile and visibility
       </h1>
-      <p style={{ fontSize: '14px', color: '#fff' }}>
+      <p style={{ fontSize: '14px' }}>
         Manage your personal information, and control which information other
         people see and apps may access.
       </p>

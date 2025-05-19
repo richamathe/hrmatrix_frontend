@@ -93,7 +93,7 @@ const EmployeeDashboard = () => {
                 </div>
                 <div className="position-relative">
                   <img
-                    src={user?.profilePhoto ? `https://hrmatrix-backend.onrender.com/${user.profilePhoto}` : 'https://via.placeholder.com/40'}
+                    src={user?.profilePhoto ? `${process.env.REACT_APP_BACKEND_URL}/${user.profilePhoto}` : 'https://via.placeholder.com/40'}
                     alt="Profile"
                     className="rounded-circle"
                     style={{
