@@ -131,7 +131,6 @@ const Support = () => {
 
   return (
     <div>
-      {/* Page Title */}
       <div className="d-flex justify-content-between align-items-center mb-4">
         <div>
           <h2 className="fw-bold" style={{
@@ -144,7 +143,6 @@ const Support = () => {
         </div>
       </div>
 
-      {/* Support Tabs */}
       <div className="d-flex mb-4">
         <Button
           variant={activeTab === 'tickets' ? 'primary' : 'light'}
@@ -170,10 +168,8 @@ const Support = () => {
         </Button>
       </div>
 
-      {/* Support Tickets */}
       {activeTab === 'tickets' && (
         <>
-          {/* Search and Filter */}
           <Card className="shadow-sm border-0 mb-4">
             <Card.Body className="p-4">
               <div className="row g-3">
@@ -279,7 +275,6 @@ const Support = () => {
         </>
       )}
 
-      {/* FAQ Section */}
       {activeTab === 'faq' && (
         <>
           <Card className="shadow-sm border-0 mb-4">

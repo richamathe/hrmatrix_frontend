@@ -237,9 +237,9 @@ const LeaveManagement = () => {
   }
 
   return (
-    <div>
-      <div className="d-flex justify-content-between align-items-center mb-4">
-        <h4 className="title">Leave Management</h4>
+    <div className="px-3">
+      <div className="d-flex justify-content-between align-items-center">
+        <h4 className="titl pl-3">Leave Management</h4>
         <div>
           <Button
             variant="outline-primary"

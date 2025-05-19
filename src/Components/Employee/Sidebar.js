@@ -354,7 +354,7 @@ const Sidebar = () => {
             <p className="text-white-50 text-uppercase small fw-medium mb-2 ps-2 mt-4">PERSONAL</p>
           )}
           <ul className="nav flex-column">
-            <li className="nav-item mb-2">
+            {/* <li className="nav-item mb-2">
               <NavLink
                 to="/employee/notifications"
                 className={navLinkClass}
@@ -427,7 +427,7 @@ const Sidebar = () => {
                   </>
                 )}
               </NavLink>
-            </li>
+            </li> */}
             <li className="nav-item mb-2">
               <NavLink
                 to="/employee/profile"

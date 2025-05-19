@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from "react";
-import male from '../assets/images/male.png';
 
 import { useSelector } from "react-redux";
 import {
@@ -23,6 +22,7 @@ import progress from "../assets/images/calendar-check-solid.svg";
 import Calendar from "./Calendar";
 import { getAllEmployees, getBirthdaysThisMonth, getDepartmentStats } from '../services/api';
 import { leaveService } from '../services/leaveService';
+import male from '../assets/images/male.png';
 
 const Cards = () => {
   const projects = useSelector((state) => state.project.projects);
@@ -288,7 +288,7 @@ const Cards = () => {
             </div> */}
           </div>
         </div>
-        <div className="row mt-4">
+        <div className="row my-4">
         
           <div className="col-md-7 col-xl-7">
             <div className="card chart-card">
@@ -386,7 +386,8 @@ const Cards = () => {
                     <div key={employee.id} className="birthday-item">
                       <div className="employee-image-container">
                         <img
-                          src={employee.image}
+                          // src={employee.image}
+                          src={male}
                           alt={employee.name}
                           className="employee-image"
                         />

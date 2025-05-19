@@ -91,7 +91,7 @@ const EmployeeDashboard = () => {
                   <p className="mb-0 fw-medium" style={{ color: '#2c3e50' }}>{user?.name}</p>
                   <p className="small mb-0" style={{ color: '#6c757d' }}>{user?.designation} • {user?.department}</p>
                 </div>
-                <div className="position-relative">
+                {/* <div className="position-relative">
                   <img
                     src={user?.profilePhoto ? `${process.env.REACT_APP_BACKEND_URL}/${user.profilePhoto}` : 'https://via.placeholder.com/40'}
                     alt="Profile"
@@ -103,7 +103,7 @@ const EmployeeDashboard = () => {
                       border: '2px solid #3498db'
                     }}
                   />
-                </div>
+                </div> */}
               </div>
             </div>
           </div>

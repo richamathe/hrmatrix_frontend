@@ -304,6 +304,14 @@ button {
 .sidebar-icon{
 width: 20px;
 height: 20px;
+    filter: contrast(0.53);
+
+}
+.react-datepicker-wrapper {
+    width: 100%;
+}
+thead {
+    z-index: 0 !important;
 }
 /* .team-icon{
   width: 28px;
@@ -1769,10 +1777,16 @@ section {
 }
 
 .input-group-text {
-  background-color: white;
-  border-right: none;
+background-color: white;
+    border: none;
+    position: absolute !important;
+    top: 7px;
+    z-index: 99;
 }
-
+.teams{
+  width: 95%;
+  margin-left: auto;
+}
 .form-control {
   border-left: none;
 }
@@ -2176,7 +2190,7 @@ section {
 }
 
 .input-group {
-  position: relative;
+  position: relative !important;
   display: flex;
   align-items: center;
 }
@@ -2899,7 +2913,12 @@ table td {
 }
 
 .sidenav .active {
-  /* color: #000 !important; */
+  color: #000 !important;
+  background-color: #f6f9fc !important;
+  border-radius: 5px;
+}
+.sidenav:hover {
+  color: #000 !important;
   background-color: #f6f9fc !important;
   border-radius: 5px;
 }

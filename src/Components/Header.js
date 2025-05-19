@@ -36,7 +36,7 @@ const Header = () => {
              {user.fullName}{' '}
              </span>
                     <img
-                      src={user?.profilePhoto ? user?.profilePhoto : userIcon}
+                      src={userIcon}
                       alt='logo'
                       className='profile'
                     />

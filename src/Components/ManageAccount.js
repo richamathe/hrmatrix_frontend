@@ -39,8 +39,8 @@ const ManageAccount = () => {
   };
 
   return (
-    <div className="manage-account-container">
-      <div className="manage-header">
+    <div>
+      {/* <div className="manage-header">
         <h2 className="manage-title">Manage Account</h2>
         <div className="filters-download">
           <select onChange={(e) => setFilterMonth(e.target.value)} defaultValue="">
@@ -96,7 +96,7 @@ const ManageAccount = () => {
           <h4>Total Leave</h4>
           <p>{account.totalLeave} Days</p>
         </div>
-      </div>
+      </div> */}
 
       {/* <div className="transaction-history">
         <h3>Transaction History</h3>

@@ -214,12 +214,12 @@
 // };
 
 // export default Profile;
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect } from "react";
 // import { FaGlobe } from 'react-icons/fa';
-import UserImage from '../assets/images/male.png';
-import UserDetails from '../dummyData.json';
-import { useDispatch, useSelector } from 'react-redux';
-import { setLogInUser } from '../redux/slices/authSlice';
+import UserImage from "../assets/images/male.png";
+import UserDetails from "../dummyData.json";
+import { useDispatch, useSelector } from "react-redux";
+import { setLogInUser } from "../redux/slices/authSlice";
 
 // Reusable ProfileField component with "Anyone" label
 const ProfileField = ({ label, value, onSave }) => {
@@ -241,42 +241,42 @@ const ProfileField = ({ label, value, onSave }) => {
   return (
     <div
       style={{
-        display: 'flex',
-        justifyContent: 'space-between',
-        marginBottom: '15px',
+        display: "flex",
+        justifyContent: "space-between",
+        marginBottom: "15px",
       }}
     >
       <div style={{ flex: 1 }}>
-        <label style={{ fontWeight: 'bold' }}>{label}</label>
+        <label style={{ fontWeight: "bold" }}>{label}</label>
         {editMode ? (
           <input
-            type='text'
+            type="text"
             value={inputValue}
             onChange={handleChange}
             onBlur={() => setEditMode(false)}
             autoFocus
             style={{
-              width: '100%',
-              padding: '5px',
-              marginTop: '5px',
-              borderRadius: '4px',
-              border: '1px solid #ccc',
+              width: "100%",
+              padding: "5px",
+              marginTop: "5px",
+              borderRadius: "4px",
+              border: "1px solid #ccc",
             }}
           />
         ) : (
           <div
-            onClick={() => setEditMode(true)}
-            style={{ marginTop: '5px', cursor: 'pointer' }}
+            // onClick={() => setEditMode(true)}
+            style={{ marginTop: "5px", cursor: "pointer" }}
           >
-            {inputValue || 'Click to edit'}
+            {inputValue || "Click to edit"}
           </div>
         )}
       </div>
       <div
-        style={{ display: 'flex', alignItems: 'center', marginLeft: '10px' }}
+        style={{ display: "flex", alignItems: "center", marginLeft: "10px" }}
       >
         {/* <FaGlobe color="#888" title="Anyone can see this" /> */}
-        <span style={{ marginLeft: '5px', color: '#888' }}>Anyone</span>
+        {/* <span style={{ marginLeft: "5px", color: "#888" }}>Anyone</span> */}
       </div>
     </div>
   );
@@ -286,11 +286,11 @@ const ManageAccount = () => {
   const dispatch = useDispatch();
   const user = useSelector((state) => state.auth.user);
   const [profileData, setProfileData] = useState({
-    fullName: user?.fullName,
-    jobTitle: user?.jobTitle || 'Manager',
-    department: user?.department || 'Your department',
-    organization: user?.organization || 'Apex Solutions',
-    location: user?.location || 'Indore',
+    fullName: user?.name,
+    jobTitle: user?.role?.toUpperCase() || "Manager",
+    department: user?.department || "Your department",
+    organization: "Shanti Infosoft LLP",
+    location: "Indore",
   });
 
   const [profilePhoto, setProfilePhoto] = useState(
@@ -317,7 +317,7 @@ const ManageAccount = () => {
       const reader = new FileReader();
       reader.onload = () => {
         setProfilePhoto(reader.result);
-        handleSave('profilePhoto', reader.result);
+        handleSave("profilePhoto", reader.result);
       };
       reader.readAsDataURL(file);
     }
@@ -330,7 +330,7 @@ const ManageAccount = () => {
       const reader = new FileReader();
       reader.onload = () => {
         setCoverImage(reader.result);
-        handleSave('coverImage', reader.result);
+        handleSave("coverImage", reader.result);
       };
       reader.readAsDataURL(file);
     }
@@ -339,18 +339,19 @@ const ManageAccount = () => {
   return (
     <div
       style={{
-        fontFamily: 'Arial, sans-serif',
-        padding: '20px',
-        maxWidth: '600px',
-        margin: '0 auto',
+        fontFamily: "Arial, sans-serif",
+        padding: "20px",
+        maxWidth: "600px",
+        margin: "0 auto",
       }}
     >
       <h1
-        style={{ fontSize: '24px', fontWeight: 'bold', marginBottom: '10px' }} className='title'
+        style={{ fontSize: "24px", fontWeight: "bold", marginBottom: "10px" }}
+        className="title"
       >
         Profile and visibility
       </h1>
-      <p style={{ fontSize: '14px' }}>
+      <p style={{ fontSize: "14px" }}>
         Manage your personal information, and control which information other
         people see and apps may access.
       </p>
@@ -358,109 +359,109 @@ const ManageAccount = () => {
       {/* Cover image with profile photo overlay */}
       <div
         style={{
-          position: 'relative',
-          marginBottom: '40px',
-          textAlign: 'center',
+          position: "relative",
+          marginBottom: "40px",
+          textAlign: "center",
         }}
       >
         {/* Cover Image */}
         <div
           style={{
-            width: '100%',
-            height: '150px',
-            backgroundColor: '#e0e7ff',
-            backgroundImage: `url(${coverImage || ''})`,
-            backgroundSize: 'cover',
-            backgroundPosition: 'center',
-            borderRadius: '8px',
-            cursor: 'pointer',
+            width: "100%",
+            height: "150px",
+            backgroundColor: "#e0e7ff",
+            backgroundImage: `url(${coverImage || ""})`,
+            backgroundSize: "cover",
+            backgroundPosition: "center",
+            borderRadius: "8px",
+            cursor: "pointer",
           }}
         >
           <input
-            type='file'
-            accept='image/*'
+            type="file"
+            accept="image/*"
             onChange={handleCoverImageUpload}
-            style={{ display: 'none' }}
-            id='cover-upload'
+            style={{ display: "none" }}
+            id="cover-upload"
           />
           <label
-            htmlFor='cover-upload'
+            htmlFor="cover-upload"
             style={{
-              display: 'block',
-              width: '100%',
-              height: '100%',
-              textAlign: 'center',
-              lineHeight: '150px',
-              fontSize: '16px',
-              color: '#333',
-              cursor: 'pointer',
+              display: "block",
+              width: "100%",
+              height: "100%",
+              textAlign: "center",
+              lineHeight: "150px",
+              fontSize: "16px",
+              color: "#333",
+              cursor: "pointer",
             }}
           >
-            {coverImage ? '' : 'Upload Cover Image'}
+            {coverImage ? "" : "Upload Cover Image"}
           </label>
         </div>
 
         {/* Profile Photo Overlay */}
         <div
           style={{
-            width: '100px',
-            height: '100px',
-            borderRadius: '50%',
-            backgroundImage: `url(${profilePhoto || ''})`,
-            backgroundColor: '#0052cc',
-            backgroundSize: 'cover',
-            backgroundPosition: 'center',
-            cursor: 'pointer',
-            position: 'absolute',
-            bottom: '-30px',
-            left: '50%',
-            transform: 'translateX(-50%)',
-            border: '3px solid white',
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'center',
-            fontSize: '24px',
-            fontWeight: 'bold',
-            color: '#fff',
+            width: "100px",
+            height: "100px",
+            borderRadius: "50%",
+            backgroundImage: `url(${profilePhoto || ""})`,
+            backgroundColor: "#0052cc",
+            backgroundSize: "cover",
+            backgroundPosition: "center",
+            cursor: "pointer",
+            position: "absolute",
+            bottom: "-30px",
+            left: "50%",
+            transform: "translateX(-50%)",
+            border: "3px solid white",
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "center",
+            fontSize: "24px",
+            fontWeight: "bold",
+            color: "#fff",
           }}
         >
           <input
-            type='file'
-            accept='image/*'
+            type="file"
+            accept="image/*"
             onChange={handleProfilePhotoUpload}
-            style={{ display: 'none' }}
-            id='profile-upload'
+            style={{ display: "none" }}
+            id="profile-upload"
           />
           <label
-            htmlFor='profile-upload'
+            htmlFor="profile-upload"
             style={{
-              width: '100%',
-              height: '100%',
-              cursor: 'pointer',
-              display: 'flex',
-              alignItems: 'center',
-              justifyContent: 'center',
+              width: "100%",
+              height: "100%",
+              cursor: "pointer",
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "center",
             }}
           >
-            {!profilePhoto && 'PM'}
+            {!profilePhoto && "PM"}
           </label>
         </div>
       </div>
 
       {/* About you section */}
       <div
-        style={{ background: '#f0f4f7', padding: '20px', borderRadius: '8px' }}
+        style={{ background: "#f0f4f7", padding: "20px", borderRadius: "8px" }}
       >
         <h3
-          style={{ fontSize: '18px', fontWeight: 'bold', marginBottom: '10px' }}
+          style={{ fontSize: "18px", fontWeight: "bold", marginBottom: "10px" }}
         >
           About You
         </h3>
 
         <ProfileField
-          label='Full Name'
+          label="Full Name"
           value={profileData.fullName}
-          onSave={(value) => handleSave('fullName', value)}
+          onSave={(value) => handleSave("fullName", value)}
         />
         {/* <ProfileField
           label='Public Name'
@@ -468,24 +469,24 @@ const ManageAccount = () => {
           onSave={(value) => handleSave('publicName', value)}
         /> */}
         <ProfileField
-          label='Job Title'
+          label="Job Title"
           value={profileData.jobTitle}
-          onSave={(value) => handleSave('jobTitle', value)}
+          onSave={(value) => handleSave("jobTitle", value)}
         />
         <ProfileField
-          label='Department'
+          label="Department"
           value={profileData.department}
-          onSave={(value) => handleSave('department', value)}
+          onSave={(value) => handleSave("department", value)}
         />
         <ProfileField
-          label='Organization'
+          label="Organization"
           value={profileData.organization}
-          onSave={(value) => handleSave('organization', value)}
+          onSave={(value) => handleSave("organization", value)}
         />
         <ProfileField
-          label='Location'
+          label="Location"
           value={profileData.location}
-          onSave={(value) => handleSave('location', value)}
+          onSave={(value) => handleSave("location", value)}
         />
       </div>
     </div>

@@ -53,8 +53,8 @@ const Projects = ({ role, userName }) => {
   };
 
   return (
-    <div className="table-card">
-      <div className="px-3">
+    <div>
+      {/* <div className="px-3">
         <h5 className="table-title">Overview</h5>
       </div>
       <div className="table-responsive">
@@ -101,7 +101,6 @@ const Projects = ({ role, userName }) => {
         </table>
       </div>
 
-      {/* Modal for employee details */}
       {showModal && selectedEmployee && (
         <div className="modal show d-block" tabIndex="-1">
           <div className="modal-dialog modal-dialog-centered">
@@ -124,7 +123,7 @@ const Projects = ({ role, userName }) => {
             </div>
           </div>
         </div>
-      )}
+      )} */}
     </div>
   );
 };

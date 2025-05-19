@@ -72,17 +72,17 @@ const Sidebar = () => {
             <img src={dollar} alt='manage' className='sidebar-icon' />
             Payroll
           </Link>
-          <Link to='/hr/account' className={isActive('/hr/account')}>
+          {/* <Link to='/hr/account' className={isActive('/hr/account')}>
             <img src={manage} alt='manage' className='sidebar-icon' />
             Manage Account
-          </Link>
+          </Link> */}
           <Link to='/hr/profile' className={isActive('/hr/profile')}>
             <img src={profileIcon} alt='profile' className='sidebar-icon' />
             Profile
           </Link>
-          <Link to='/hr/support' className={isActive('/hr/support')}>
+          {/* <Link to='/hr/support' className={isActive('/hr/support')}>
             <img src={support} alt='help' className='sidebar-icon' /> Help/Support
-          </Link>
+          </Link> */}
           <Link to='/login' onClick={handleLogout}>
             <img src={logoutIcon} alt='logout' className='sidebar-icon' /> Logout
           </Link>

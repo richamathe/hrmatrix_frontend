@@ -79,11 +79,11 @@ const Payroll = () => {
   };
 
   return (
-    <div className="p-4 p-md-5" style={{ backgroundColor: '#f8f9fa', fontFamily: "'Poppins', sans-serif" }}>
+    <div className="px-3" style={{ backgroundColor: '#f8f9fa', fontFamily: "'Poppins', sans-serif" }}>
       {/* Header */}
       <div className="d-flex flex-wrap justify-content-between align-items-center mb-4">
         <div>
-          <h1 className="mb-1" style={{ fontSize: '2rem', fontWeight: '600', background: themeColors.gradient, WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent', backgroundClip: 'text' }}>Employee Salary</h1>
+          <h1 className="mb-1" style={{ fontSize: '2rem', fontWeight: '600',  }}>Employee Salary</h1>
           <div style={{ fontSize: '0.9rem', color: '#6c757d' }}>
             <span style={{ color: themeColors.secondary }}>HR</span> / Employee Salary
           </div>

@@ -84,7 +84,7 @@ const Profile = () => {
             marginTop: '-60px',
             position: 'relative'
           }}>
-            <div style={{
+            {/* <div style={{
               padding: '3px',
               background: 'white',
               borderRadius: '50%',
@@ -102,7 +102,7 @@ const Profile = () => {
                   border: `3px solid white`
                 }}
               />
-            </div>
+            </div> */}
             <div style={{
               textAlign: 'left',
               paddingTop: '60px'

@@ -161,13 +161,13 @@ const Dashboard = () => {
                     )}
                   </p>
                 </div>
-                <div>
+                {/* <div>
                   {!todayAttendance.checkIn ? (
                     <Button variant="primary" onClick={handleCheckIn} className="rounded-pill px-4 py-2">Check In</Button>
                   ) : !todayAttendance.checkOut ? (
-                    <Button variant="danger" onClick={handleCheckOut} className="rounded-pill px-4 py-2">Check Out</Button>
+                    <Button variant="danger" onClick={handleCheckOut} className="rounded-pill px-4 py-2"></Button>
                   ) : null}
-                </div>
+                </div> */}
               </div>
             </Card.Body>
           </Card>
@@ -341,12 +341,12 @@ const Dashboard = () => {
                   </div>
                   <h5 className="card-title mb-0" style={{ fontWeight: 500 }}>Notifications</h5>
                 </div>
-                <Link
+                {/* <Link
                   to="/employee/notifications"
                   className="text-decoration-none d-flex align-items-center rounded-pill px-3 py-1"
                   style={{
                     background: 'rgba(255,255,255,0.15)',
-                    color: 'white',
+                    color: 'black',
                     transition: 'all 0.2s ease',
                     boxShadow: '0 2px 6px rgba(0, 0, 0, 0.1)'
                   }}
@@ -359,7 +359,7 @@ const Dashboard = () => {
                 >
                   <small className="fw-medium">View all</small>
                   <ArrowRight size={16} className="ms-1" />
-                </Link>
+                </Link> */}
               </div>
 
               {notifications.length > 0 ? (
